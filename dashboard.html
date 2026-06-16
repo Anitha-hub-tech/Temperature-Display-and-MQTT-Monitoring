@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IoT Temperature Dashboard</title>
+
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f1c3a;
+            color: white;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top:200px;
+            display: inline-block;
+            box-shadow: 0 0 20px rgba(0,255,200,0.2);
+        }
+
+        h1 {
+            color: #38bdf8;
+        }
+
+        #temp {
+            font-size: 70px;
+            color: #facc15;
+            margin-top: 20px;
+        }
+
+        #status {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #22c55e;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Anitha's Live Temperature</h1>
+    <div id="temp">-- °C</div>
+    <div id="status">Connecting...</div>
+</div>
+
+<script>
+    // 🔌 CONNECT TO MQTT BROKER
+    const client = mqtt.connect("ws://broker.benax.rw:9001");
+
+    const topic = "anitha/temperature";
+
+    client.on("connect", function () {
+        document.getElementById("status").innerText = "Connected to MQTT";
+        client.subscribe(topic);
+    });
+
+    client.on("message", function (topic, message) {
+        const temp = message.toString();
+
+        document.getElementById("temp").innerText = temp + " °C";
+    });
+
+    client.on("error", function () {
+        document.getElementById("status").innerText = "Connection error ❌";
+    });
+</script>
+
+</body>
+</html>
