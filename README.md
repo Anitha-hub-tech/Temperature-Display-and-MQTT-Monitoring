@@ -140,9 +140,9 @@ IRAKOZE  Gikunidiro Anitha
 find my work on http://157.173.101.159:8081/
 
 
-**SYSTEM ARCHITECTURE**
+# System Architecture – Temperature Monitoring System
 
-
+```text
 ┌─────────────────────┐
 │     Temperature     │
 │       Sensor        │
@@ -192,3 +192,73 @@ find my work on http://157.173.101.159:8081/
 │ Browser                    │
 │ http://157.173.101.159:8098│
 └────────────────────────────┘
+```
+
+## Components Description
+
+### 1. Temperature Sensor
+- Measures environmental temperature.
+- Connected directly to the Arduino board.
+- Sends temperature readings continuously.
+
+### 2. Arduino
+- Reads sensor values.
+- Converts the readings into serial data.
+- Sends data to the PC through USB Serial communication.
+
+### 3. PC Program
+- Opens the Arduino serial port.
+- Receives incoming temperature values.
+- Publishes readings to MQTT.
+
+Example MQTT topic:
+
+```text
+anitha/temperature
+```
+
+### 4. MQTT Broker
+- Receives published temperature messages.
+- Makes data available to subscribers.
+- Broker endpoint:
+
+```text
+broker.benax.rw:9001
+```
+
+### 5. Temperature Dashboard
+- Web application (`dashboard.html`)
+- Uses:
+  - HTML
+  - JavaScript
+  - MQTT Client
+- Hosted on VPS using Node.js.
+- Runs on:
+
+```text
+http://157.173.101.159:8098
+```
+
+### 6. Teacher/User
+- Opens dashboard in browser.
+- Views real-time temperature updates.
+
+## Data Flow
+
+```text
+Temperature Sensor
+      ↓
+Arduino
+      ↓
+USB Serial
+      ↓
+PC Program
+      ↓
+MQTT Publish
+      ↓
+MQTT Broker
+      ↓
+Dashboard (Subscribe)
+      ↓
+Teacher/User Browser
+```
