@@ -127,7 +127,12 @@ This project demonstrates:
 - Add authentication and secure MQTT (TLS)
 
 ---
-
+##connections
+LCD
+SDA:A4
+SCL:A5
+DHT
+Data:D13
 ## Author
 
 IRAKOZE  Gikunidiro Anitha 
